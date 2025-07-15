@@ -13,6 +13,17 @@ export default function Pagination({
   totalItems,
 }) {
   const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+  const maxVisibleButtons = 5;
+
+  const startPage = Math.max(
+    1,
+    Math.min(
+      currentPage - Math.floor(maxVisibleButtons / 2),
+      totalPages - maxVisibleButtons + 1
+    )
+  );
+
+  const endPage = Math.min(startPage + maxVisibleButtons - 1, totalPages);
 
   const handlePageSizeChange = (e) => {
     const newSize = Number(e.target.value);
@@ -34,8 +45,8 @@ export default function Pagination({
             <ChevronLeft />
           </button>
 
-          {Array.from({ length: totalPages }, (_, i) => {
-            const page = i + 1;
+          {Array.from({ length: endPage - startPage + 1 }, (_, i) => {
+            const page = startPage + i;
             const isActive = page === currentPage;
             return (
               <button
