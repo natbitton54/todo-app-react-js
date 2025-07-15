@@ -89,28 +89,22 @@ export default function TaskList({
   const [pageSize, setPageSize] = useState(5);
   const [allTasks, setAllTasks] = useState([]);
 
-  const loadTasks = useCallback(async () => {
+  useEffect(() => {
     if (!user) return;
 
-    try {
-      const snap = await getDocs(
-        query(
-          collection(db, "users", user.uid, "tasks"),
-          orderBy("createdMs", "desc")
-        )
-      );
+    const q = query(
+      collection(db, "users", user.uid, "tasks"),
+      orderBy("createdMs", "desc")
+    );
+
+    const unsubscribe = onSnapshot(q, (snap) => {
       const docs = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setAllTasks(docs);
-      setCurrentPage(1); // reset to first page
-    } catch (err) {
-      console.error("Failed to fetch tasks:", err);
-      setAllTasks([]);
-    }
-  }, [user]);
+      setCurrentPage(1); // reset to page 1 on any change
+    });
 
-  useEffect(() => {
-    if (user) loadTasks("none", 1);
-  }, [user, pageSize, loadTasks]);
+    return () => unsubscribe(); // clean up listener on unmount
+  }, [user]);
 
   /* -------------------- Firestore category listener --------------- */
   useEffect(() => {
@@ -382,7 +376,6 @@ export default function TaskList({
       docId = typeof ref === "string" ? ref : ref?.id ?? ref?.doc?.id ?? null;
     }
 
-    await loadTasks();
 
     /* 5 — close / reset UI (always!) */
     resetForm();
