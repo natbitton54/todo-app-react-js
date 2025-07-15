@@ -1,0 +1,112 @@
+/* ───────── FULLCALENDAR – DARK MODE OVERHAUL ─────────
+   Place AFTER FullCalendar’s own css imports.
+   Activates whenever <html class="dark"> is present.
+────────────────────────────────────────────────────── */
+.dark .fc {
+    /* === Global tokens === */
+    --fc-page-bg-color: #0d1117;
+    /* slate-900  */
+    --fc-neutral-bg-color: #1e293b;
+    /* slate-800  */
+    --fc-border-color: #334155;
+    /* slate-700  */
+    --fc-today-bg-color: #80a9bc;
+    /* blue-600 @ 20% */
+
+    /* Text & icons */
+    --fc-neutral-text-color: #cbd5e1;
+    /* slate-300 */
+    --fc-button-text-color: #f1f5f9;
+    /* slate-50  */
+    --fc-event-text-color: #f8fafc;
+    /* slate-50  */
+
+    /* Buttons */
+    --fc-button-bg-color: #475569;
+    /* slate-600 */
+    --fc-button-border-color: #475569;
+    --fc-button-hover-bg-color: #64748b;
+    /* slate-500 */
+    --fc-button-active-bg-color: #64748b;
+
+    /* Generic event colour (fallback) */
+    --fc-event-bg-color: #7c3aed;
+    /* violet-600 */
+    --fc-event-border-color: #7c3aed;
+}
+
+/* Day-grid & time-grid explicit text overrides */
+.dark .fc .fc-col-header-cell-cushion,
+.dark .fc .fc-daygrid-day-number,
+.dark .fc .fc-timegrid-slot-label,
+.dark .fc .fc-scrollgrid-sync-inner,
+.dark .fc-toolbar-title {
+    color: #e2e8f0;
+    /* slate-200 */
+    font-weight: 500;
+}
+
+/* Dim “other month” numbers */
+.dark .fc .fc-daygrid-day.fc-day-other .fc-daygrid-day-number {
+    color: #64748b;
+    /* slate-500 */
+}
+
+@media (max-width: 768px) {
+    .fc .fc-toolbar-title {
+        font-size: 1.1rem !important;
+    }
+}
+
+/*  Extra legibility on phones + landscape-phone “list” view
+-------------------------------------------------------------------- */
+
+/* Treat anything <768 px wide OR <500 px tall as “small” */
+@media (max-width: 48rem),
+(max-height: 31.25rem) {
+
+    /* LIST VIEW (mobile) */
+    .fc .fc-list-event-title {
+        white-space: normal;
+        font-size: 0.95rem;
+        line-height: 1.3;
+    }
+
+    .fc .fc-list-event {
+        padding: 0.4rem 0.5rem;
+    }
+
+    .fc .fc-list-event-dot {
+        width: 6px;
+        height: 100%;
+        border-radius: 0;
+        margin-right: 6px;
+    }
+
+    .fc .fc-list-event:hover {
+        background: rgba(0, 0, 0, 0.04);
+    }
+
+    /* GRID / TIMEGRID tweaks on small screens */
+    .fc .fc-event-title {
+        white-space: normal;
+        font-size: 0.78rem;
+        line-height: 1.2;
+    }
+}
+
+
+
+/* Dark-mode hover tweak for list rows */
+@media (prefers-color-scheme: dark) {
+    .dark .fc .fc-list-event:hover {
+       
+    }
+}
+
+/* ───────── NEW: force bright text in list/table cells ───────── */
+.dark .fc-theme-standard td,
+.dark .fc-theme-standard th {
+    color: #e5e7eb !important;
+    /* slate-200 */
+}
