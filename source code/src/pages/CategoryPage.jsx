@@ -111,7 +111,7 @@ export default function CategoryPage() {
           </h1>
 
           {/* Mobile-only deleted warning (if category not found) */}
-          {categoryName === "" && (
+          {categoryName === "" && loading === '' &&(
             <div className="md:hidden mb-6 p-3 rounded bg-yellow-100 dark:bg-yellow-800 text-yellow-900 dark:text-yellow-100 text-center">
               This category may have been deleted. Open the <b>☰</b> menu to
               select another.
