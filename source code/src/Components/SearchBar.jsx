@@ -11,6 +11,17 @@ export default function SearchBar({
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const { user } = useAuth();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkResize = () => {
+      setIsMobile(window.innerWidth <= 960);
+    };
+
+    checkResize();
+    window.addEventListener("resize", checkResize);
+    return () => window.removeEventListener("resize", checkResize);
+  }, []);
 
   const handleSearchTask = useCallback(async () => {
     if (!user?.uid) return;
@@ -24,8 +35,8 @@ export default function SearchBar({
     let sortFilterField = null;
     let sortFilterValue = null;
 
-    const advancedSortMatch = term.match(/^sort&(\w+)='([^']+)'-(asc|desc)$/);
-    const basicSortMatch = term.match(/^sort&(\w+)-(asc|desc)$/);
+   const advancedSortMatch = term.match(/^sort&(\w+)='([^']+)'-(asc|desc)$/i);
+   const basicSortMatch = term.match(/^sort&(\w+)-(asc|desc)$/i);
 
     if (advancedSortMatch) {
       sortFilterField = advancedSortMatch[1];
@@ -114,9 +125,12 @@ export default function SearchBar({
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        placeholder="Search task name or use: sort&title-asc, sort&title-desc, sort&category='Gaming'-desc (case-sensitive)"
-        style={{ WebkitOverflowScrolling: "touch" }}
-        className="w-full pl-10 pr-10 py-3 rounded-2xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 overflow-x-auto overflow-y-hidden whitespace-nowrap"
+        placeholder={
+          isMobile
+            ? "Search or sort... sort&field-asc"
+            : "Search task name or use: sort&title-asc, sort&title-desc, sort&category='Gaming'-desc (case-sensitive)"
+        }
+        className="w-full pl-10 pr-10 py-3 rounded-2xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:transition-all placeholder:duration-700"
       />
 
       {searchTerm && (

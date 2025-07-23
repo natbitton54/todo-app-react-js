@@ -17,13 +17,10 @@ export default function Pagination({
 
   const startPage = Math.max(
     1,
-    Math.min(
-      currentPage - Math.floor(maxVisibleButtons / 2),
-      totalPages - maxVisibleButtons + 1
-    )
-  );
+    Math.min(currentPage - Math.floor(maxVisibleButtons / 2), totalPages - maxVisibleButtons + 1)
+  )
 
-  const endPage = Math.min(startPage + maxVisibleButtons - 1, totalPages);
+  const endPage = Math.min(startPage + maxVisibleButtons - 1, totalPages)
 
   const handlePageSizeChange = (e) => {
     const newSize = Number(e.target.value);

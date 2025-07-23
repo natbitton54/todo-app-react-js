@@ -12,7 +12,7 @@ import {
 } from 'firebase/auth'
 
 import { auth, db } from './config.js'
-import { doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore'
 import { showError } from '../utils/alerts.js';
 import {
     connectGoogleCalendar as _connect,
@@ -35,6 +35,32 @@ const applyPersistence = async (remember) => {
         remember ? browserLocalPersistence : browserSessionPersistence
     )
 }
+
+export const getCurrentUserEmail = async () => {
+    try {
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            showError("No user is currently logged in.")
+            return [];
+        }
+        const userRef = doc(db, 'users', currentUser.uid);
+        const snapshot = await getDoc(userRef)
+
+        if (snapshot.exists()) {
+            const data = snapshot.data()
+            console.log(data.email)
+            return data.email || ''
+        } else {
+            showError("User document not found.");
+            return '';
+        }
+    } catch (err) {
+        console.error("Failed to fetch current user email: ", err.message);
+        showError("Unable to fetch your email.");
+        return '';
+    }
+};
 
 export const connectGoogleCalendar = ({ interactive = true } = {}) =>
     _connect({ interactive });

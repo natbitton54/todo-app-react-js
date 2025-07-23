@@ -1,5 +1,5 @@
 // src/Components/TaskList.jsx
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   FaCalendarAlt,
   FaClock,
@@ -10,12 +10,9 @@ import {
 import {
   collection,
   getDocs,
-  limit,
   onSnapshot,
   orderBy,
   query,
-  startAfter,
-  startAt,
 } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useAuth } from "../context/AuthContext";
@@ -23,7 +20,10 @@ import { scheduleTaskReminder } from "../utils/reminders";
 import { showError } from "../utils/alerts";
 import { Link } from "react-router-dom";
 import ReminderToggle from "./ReminderToggle";
-import { connectGoogleCalendar } from "../firebase/authService";
+import {
+  connectGoogleCalendar,
+  getCurrentUserEmail,
+} from "../firebase/authService";
 import {
   addEventToGoogleCalendar,
   deleteCalendarEvent,
@@ -88,6 +88,18 @@ export default function TaskList({
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [allTasks, setAllTasks] = useState([]);
+  const [email, setEmail] = useState('')
+
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchEmail = async () => {
+      const email = await getCurrentUserEmail();
+      setEmail(email)
+    };
+
+    fetchEmail();
+  }, [user]);
 
   useEffect(() => {
     if (!user) return;
@@ -375,7 +387,6 @@ export default function TaskList({
 
       docId = typeof ref === "string" ? ref : ref?.id ?? ref?.doc?.id ?? null;
     }
-
 
     /* 5 — close / reset UI (always!) */
     resetForm();
