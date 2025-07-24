@@ -3,7 +3,7 @@ name: Send Overdue Emails
 on:
   schedule:
     - cron: '0 * * * *'  # every hour UTC
-  workflow_dispatch:      # allows manual trigger
+  workflow_dispatch:      # allows manual trigger from GitHub
 
 jobs:
   trigger-vercel-api:
@@ -11,5 +11,5 @@ jobs:
     steps:
       - name: Call Vercel Overdue Email API
         run: |
-          curl -X POST https://task-manager-p9htpebna-natbitton54s-projects.vercel.app/api/sendOverdueEmails \
+          curl -X POST https://task-manager-three-vert.vercel.app/api/sendOverdueEmails \
             -H "Authorization: Bearer ${{ secrets.VERCEL_TRIGGER_SECRET }}"
