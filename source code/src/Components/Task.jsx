@@ -372,9 +372,11 @@ export default function TaskList({
       ...formData,
       titleLower: formData.title.trim().toLowerCase(),
       due: dueISO,
+      dueMs,
       remindAt: remindAtMs,
       createdMs: Date.now(),
       reminderSent: false,
+      notified: false,
     };
 
     /* 4 — add / edit in Firestore */
