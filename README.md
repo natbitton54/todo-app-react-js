@@ -7,48 +7,52 @@
 
 A full-stack **to-do / task planner** that runs everywhere:
 
-* 🌐 **Web PWA** – installable on desktop & mobile  
-* 📱 **Mobile apps** – via Capacitor (iOS & Android)  
-* ☁️ **Serverless backend** – Firebase Auth + Firestore + Cloud Messaging  
-* 🔔 **Smart reminders** – push and local notifications with [Cron Job Org Console](https://console.cron-job.org/)
+- 🌐 **Web PWA** – installable on desktop & mobile  
+- 📱 **Mobile apps** – via Capacitor (iOS & Android)  
+- ☁️ **Serverless backend** – Firebase Auth + Firestore + Cloud Messaging  
+- 🔔 **Smart reminders** – local and push notifications, Google Calendar integration (via GitHub Actions)
 
 ---
 
-| Category              | Details                                                                                                             |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| 🔐 **Auth**           | Email/password & Google login (Firebase Authentication)                                                             |
-| 🗂 **Categories**     | Unlimited user-defined categories with color tags                                                                   |
-| ⏰ **Due Date & Time** | Native pickers & readable formatting (e.g. Jul 4, 2025, 6:30 PM)                                                    |
-| ⏳ **Smart Reminders** | 📱 Local notifications via Capacitor<br>💻 Push via Firebase Cloud Messaging + cron job                             |
-| 🔔 **Cron Job**       | `/api/sendReminders` runs every 15 min (Pro tier), checking and notifying users about upcoming or overdue tasks     |
-| 📧 **Overdue Emails** | Automatically sends emails to users when tasks become overdue (via Vercel serverless API + Resend)                  |
-| ✔️ **Task Actions**   | Add • Edit • Toggle Done • Delete (with confirmation)                                                               |
-| 🔍 **Filters**        | All • Done • Not Done                                                                                               |
-| 🔎 **Search**         | Search tasks by title (case-insensitive) globally and within each category (category page filters to its own tasks) |
-| 📄 **Pagination**     | Dynamic pagination with page numbers, selectable page size, and current page indicator (`Page x of y`)              |
-| 🌗 **Dark Mode**      | Follows system preference; toggle with `Alt + D` (⌥ + D on macOS) or use the sidebar button                         |
-| 📱 **Installable**    | Full PWA with manifest, favicon, and offline support                                                                |
-| 📊 **Stats Page**     | Bar and pie charts showing task completion, overdue stats, and filters by category & time period                    |
-| 🔒 **Per-user Data**  | Firestore security rules restrict access to each user’s data                                                        |
+## ✨ Features
+
+| Category               | Details                                                                                                                        |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| 🔐 **Auth**            | Email/password & Google login (Firebase Authentication)                                                                        |
+| 🗂 **Categories**      | Unlimited user-defined categories with color tags                                                                              |
+| ⏰ **Due Date & Time** | Native pickers & readable formatting (e.g. Jul 4, 2025, 6:30 PM)                                                               |
+| 🔔 **Smart Reminders** | 📱 Local notifications via Capacitor<br>📆 Google Calendar events created via GitHub Actions when enabled                       |
+| 📧 **Overdue Emails**  | Automatically sends emails to users when tasks become overdue (via Vercel serverless API + Resend)                            |
+| ✔️ **Task Actions**    | Add • Edit • Toggle Done • Delete (with confirmation)                                                                          |
+| 🔍 **Filters**         | All • Done • Not Done                                                                                                          |
+| 🔎 **Search**          | Search tasks by title (case-insensitive) globally and within each category                                                     |
+| 📄 **Pagination**      | Dynamic pagination with page numbers, selectable page size, and current page indicator (`Page x of y`)                        |
+| 🌗 **Dark Mode**       | Follows system preference; toggle with `Alt + D` or sidebar button                                                             |
+| 📱 **Installable**     | Full PWA with manifest, favicon, and offline support                                                                           |
+| 📊 **Stats Page**      | Bar and pie charts showing task completion, overdue stats, and filters by category & time period                              |
+| 🔒 **Per-user Data**   | Firestore security rules restrict access to each user’s data                                                                   |
+
+---
 
 ## 🧩 Project Structure
 
 ### 🖥 Frontend – React + Capacitor
 
-* **React** with Create React App
-* **PWA ready** (service worker + manifest)
-* **Capacitor shell** for iOS/Android builds
-* **Search bar** for filtering tasks by title
-* **Category-specific search** on the Category page
-* **Pagination component** with page selection and dynamic page count
-* **Dark/light theme** based on user system
+- **React** with Create React App
+- **PWA ready** (service worker + manifest)
+- **Capacitor shell** for iOS/Android builds
+- **Search bar** for filtering tasks by title
+- **Category-specific search** on the Category page
+- **Pagination component** with page selection and dynamic page count
+- **Dark/light theme** based on user system
 
 ### ☁️ Backend – Firebase + Vercel Serverless
 
-* **Firebase Auth** for secure login
-* **Firestore** for task storage
-* **Cloud Messaging** for web push
-* **Vercel serverless API** (`/api/sendReminders`) triggered by cron job org console
+- **Firebase Auth** for secure login
+- **Firestore** for task storage
+- **Cloud Messaging** for push notifications
+- **Serverless API endpoint** (`/api/sendReminders`) for overdue email detection
+- **GitHub Actions** for scheduling reminders & Google Calendar integration
 
 ---
 
@@ -60,7 +64,7 @@ A full-stack **to-do / task planner** that runs everywhere:
 git clone https://github.com/<your-user>/to-do-app-react-js.git
 cd to-do-app-react-js
 npm install
-```
+
 
 ### 2. Firebase Console
 
