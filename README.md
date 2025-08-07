@@ -14,23 +14,22 @@ A full-stack **to-do / task planner** that runs everywhere:
 
 ---
 
-## ✨ Features
-
-| Category              | Details                                                                                                                        |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| 🔐 **Auth**           | Email/password & Google login (Firebase Authentication)                                                                        |
-| 🗂 **Categories**     | Unlimited user-defined categories with color tags                                                                              |
-| ⏰ **Due Date & Time** | Native pickers & readable formatting (e.g. Jul 4, 2025, 6:30 PM)                                                               |
-| ⏳ **Smart Reminders** | 📱 Local notifications via Capacitor<br>💻 Push via Firebase Cloud Messaging + cron job                                        |
-| 🔔 **Cron Job**       | `/api/sendReminders` runs every 15 min (Pro tier), marking tasks as `reminderSent=true`                                       |
-| ✔️ **Task Actions**   | Add • Edit • Toggle Done • Delete (with confirmation)                                                                          |
-| 🔍 **Filters**        | All • Done • Not Done                                                                                                          |
-| 🔎 **Search**         | Search tasks by title (case-insensitive) globally and within each category (category page filters to its own tasks)           |
-| 📄 **Pagination**     | Dynamic pagination with page numbers, selectable page size, and current page indicator (`Page x of y`)                        |
-| 🌗 **Dark Mode**      | Follows system preference; toggle with <kbd>Alt + D</kbd> (⌥ + D on macOS) or use the sidebar button                          |
-| 📱 **Installable**    | Full PWA with manifest, favicon, and offline support                                                                           |
-| 🔒 **Per-user Data**  | Firestore security rules restrict access to each user’s data                                                                   |
-
+| Category              | Details                                                                                                             |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| 🔐 **Auth**           | Email/password & Google login (Firebase Authentication)                                                             |
+| 🗂 **Categories**     | Unlimited user-defined categories with color tags                                                                   |
+| ⏰ **Due Date & Time** | Native pickers & readable formatting (e.g. Jul 4, 2025, 6:30 PM)                                                    |
+| ⏳ **Smart Reminders** | 📱 Local notifications via Capacitor<br>💻 Push via Firebase Cloud Messaging + cron job                             |
+| 🔔 **Cron Job**       | `/api/sendReminders` runs every 15 min (Pro tier), checking and notifying users about upcoming or overdue tasks     |
+| 📧 **Overdue Emails** | Automatically sends emails to users when tasks become overdue (via Vercel serverless API + Resend)                  |
+| ✔️ **Task Actions**   | Add • Edit • Toggle Done • Delete (with confirmation)                                                               |
+| 🔍 **Filters**        | All • Done • Not Done                                                                                               |
+| 🔎 **Search**         | Search tasks by title (case-insensitive) globally and within each category (category page filters to its own tasks) |
+| 📄 **Pagination**     | Dynamic pagination with page numbers, selectable page size, and current page indicator (`Page x of y`)              |
+| 🌗 **Dark Mode**      | Follows system preference; toggle with `Alt + D` (⌥ + D on macOS) or use the sidebar button                         |
+| 📱 **Installable**    | Full PWA with manifest, favicon, and offline support                                                                |
+| 📊 **Stats Page**     | Bar and pie charts showing task completion, overdue stats, and filters by category & time period                    |
+| 🔒 **Per-user Data**  | Firestore security rules restrict access to each user’s data                                                        |
 
 ## 🧩 Project Structure
 
