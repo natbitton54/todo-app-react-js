@@ -104,8 +104,10 @@ export const login = async (email, password, remember = false) => {
 //? Gmail auth
 export const loginWithGoogle = async (remember = false) => {
     await applyPersistence(remember);
+
     const provider = new GoogleAuthProvider();
     provider.addScope("https://www.googleapis.com/auth/calendar.events");
+
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
@@ -132,11 +134,11 @@ export const loginWithGoogle = async (remember = false) => {
         });
     }
 
-    // Attempt calendar access silently (non-interactive)
+    // 🔁 Try silent calendar connection
     try {
         await connectGoogleCalendar({ interactive: false });
-    } catch (err) {
-        console.warn("Calendar not connected silently, user can connect manually later.");
+    } catch {
+        console.warn("Calendar not connected silently.");
     }
 
     return result;

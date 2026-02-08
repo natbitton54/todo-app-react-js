@@ -8,17 +8,33 @@ import { useAuth } from "../context/AuthContext";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false)
-  const navigate = useNavigate();
+  const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
   const { user } = useAuth();
 
+  // Redirect if already logged in
   useEffect(() => {
     if (user) navigate("/dashboard");
   }, [user, navigate]);
 
+  // ⭐ Load saved remember-me preference
+  useEffect(() => {
+    const saved = localStorage.getItem("rememberMe") === "true";
+    setRememberMe(saved);
+  }, []);
+
+  // ⭐ Save remember-me preference whenever it changes
+  useEffect(() => {
+    localStorage.setItem("rememberMe", rememberMe);
+  }, [rememberMe]);
+
   const handleEmailLogin = async (e) => {
     e.preventDefault();
+    if (loading) return;
+
+    setLoading(true);
     try {
       await login(email, password, rememberMe);
       showSuccess("Logged in successfully");
@@ -36,8 +52,6 @@ export default function Login() {
           "Too many login attempts. Please wait a moment and try again.";
       } else if (err.code === "auth/invalid-email") {
         message = "The email address is badly formatted.";
-      } else if (err.code === "auth/internal-error") {
-        message = "Internal server error. Please try again later.";
       } else if (err.code === "auth/network-request-failed") {
         message = "Network error. Please check your internet connection.";
       } else if (err.code === "auth/invalid-credential") {
@@ -45,18 +59,26 @@ export default function Login() {
       }
 
       showError(message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleGoogleAuth = async () => {
+    if (loading) return;
+
+    setLoading(true);
     try {
       await loginWithGoogle(rememberMe);
       showSuccess("Logged in successfully");
       navigate("/dashboard");
     } catch (err) {
       showError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="max-w-md w-full p-6 bg-white rounded shadow-md">
@@ -89,28 +111,32 @@ export default function Login() {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200"
+            disabled={loading}
+            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200 disabled:opacity-50"
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
         <hr className="my-6 mb-4" />
-        <div className="flex mb-4">
+
+        {/* REMEMBER ME */}
+        <div className="flex mb-4 items-center">
           <input
             type="checkbox"
-            className="mr-2 ml-2 cursor-pointer"
             id="remember-me"
-            value={rememberMe}
+            checked={rememberMe}
             onChange={(e) => setRememberMe(e.target.checked)}
+            className="mr-2 ml-2 cursor-pointer"
           />
           <label
-            className="cursor-pointer hover:text-[#305ae6] hover:underline"
             htmlFor="remember-me"
+            className="cursor-pointer hover:text-[#305ae6] hover:underline"
           >
             Remember me?
           </label>
         </div>
+
         <div className="flex items-center justify-center space-x-4">
           <GoogleButton onClick={handleGoogleAuth} />
         </div>
